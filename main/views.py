@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse
 from django.http import JsonResponse
-from .models import Question, Answer, Comment
+from .models import Question, Answer, Comment, UpVote, DownVote
 from django.core.paginator import Paginator
 from .forms import AnswerForm
 from django.contrib import messages
@@ -61,6 +61,21 @@ def save_upvote(request):
             return JsonResponse({'bool':False})
         else:
             UpVote.objects.create(
+                answer=answer,
+                user=user
+            )
+        return JsonResponse({'bool':True})
+
+def save_downvote(request):
+    if request.method=='POST':
+        answerid=request.POST['answerid']
+        answer=Answer.objects.get(pk=answerid)
+        user=request.user
+        check=DownVote.objects.filter(answer=answer,user=user).count()
+        if check > 0:
+            return JsonResponse({'bool':False})
+        else:
+            DownVote.objects.create(
                 answer=answer,
                 user=user
             )
