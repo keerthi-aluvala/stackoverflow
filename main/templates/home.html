@@ -32,13 +32,17 @@
 	            <!-- Navbar Right Side -->
 	            	<div class="navbar-nav">
                     
-                      <a class="nav-item nav-link" href="#">Questions</a>
-                      <a class="nav-item nav-link" href="#">Tags</a>
-                      <a class="nav-item nav-link" href="#">Ask</a>
-                    
-  	              		<a class="nav-item nav-link" href="#">Profile</a>
-  	              		<a class="nav-item nav-link" href="#">Register</a>
-                    
+                        <a class="nav-item nav-link" href="#">Questions</a>
+                        <a class="nav-item nav-link" href="#">Tags</a>
+                        <a class="nav-item nav-link" href="/ask-question">Ask</a>
+                    {% if user.is_authenticated %}
+                        <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                        <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                    {% endif %}
+                    </div>
 	            </div>
 	          </div>
 	        </div>
@@ -62,15 +66,18 @@
 
     <div class="container">
         {% for quest in quests %}
-        <div class="card mb-3">
+        <div class="card mb-4 shadow">
             <div class="card-body">
                 <h4 class="card-title"><a href="/detail/{{quest.id}}">{{quest.title}}</a></h3>
                 <p class="card-text">{{quest.detail}}</p>
                 <p>
                     <a href="#" class="mr-2">{{quest.user.username}}</a>
-                    <a href="#" class="mr-2">5 Answers</a>
-                    <a href="#" class="mr-2">10 Comments</a>
+                    <a href="#" class="mr-2">{{quest.answer_set.count}} Answers</a>
+                    <a href="#" class="mr-2">{{quest.total_comments}} Comments</a>
                 </p>
+            </div>
+            <div class="card-footer">
+                <small>{{quest.add_time}}</small>
             </div>
         </div>
         {% endfor %}

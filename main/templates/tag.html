@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}{{tag}}{% endblock %}
+{% block content %}
+    <!-- Question List -->
+    <div class="container py-5">
+        {% for quest in quests %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h4 class="card-title"><a href="/detail/{{quest.id}}">{{quest.title}}</a></h4>
+                <p class="card-text">{{quest.detail}}</p>
+                <p>
+                    <a href="#" class="mr-2">{{quest.user.username}}</a>
+                    <a href="#" class="mr-2">{{quest.answer_set.count}} Answers</a>
+                    <a href="#" class="mr-2">{{quest.total_comments}} Comments</a>
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

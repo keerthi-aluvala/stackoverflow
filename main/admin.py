@@ -5,6 +5,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ('title','user')
     search_fields = ('title','detail')
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(Answer)
 
 class CommentAdmin(admin.ModelAdmin):
     list_display=('answer','comment')
