@@ -33,7 +33,7 @@
 	            	<div class="navbar-nav">
                     
                         <a class="nav-item nav-link" href="#">Questions</a>
-                        <a class="nav-item nav-link" href="#">Tags</a>
+                        <a class="nav-item nav-link" href="/tags">Tags</a>
                         <a class="nav-item nav-link" href="/ask-question">Ask</a>
                     {% if user.is_authenticated %}
                         <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
@@ -64,24 +64,23 @@
         </div>
     </div>
 
-    <div class="container">
-        {% for quest in quests %}
-        <div class="card mb-4 shadow">
-            <div class="card-body">
-                <h4 class="card-title"><a href="/detail/{{quest.id}}">{{quest.title}}</a></h3>
-                <p class="card-text">{{quest.detail}}</p>
-                <p>
-                    <a href="#" class="mr-2">{{quest.user.username}}</a>
+    <main role="main" class="container">
+    {% for quest in quests %}
+        <article class="media content-section">
+        	<img class="rounded-circle article-img" src= "{{ quest.user.profile.image.url }}">
+	        <div class="media-body">
+	            <div class="article-metadata">
+	                <a class="mr-2" href="#">{{ quest.user.username }}</a>
                     <a href="#" class="mr-2">{{quest.answer_set.count}} Answers</a>
                     <a href="#" class="mr-2">{{quest.total_comments}} Comments</a>
-                </p>
-            </div>
-            <div class="card-footer">
-                <small>{{quest.add_time}}</small>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+	                <small class="text-muted">{{ quest.add_time|date:"F d, Y" }}</small>
+	            </div>
+	            <h2><a class="article-title" href="/detail/{{quest.id}}">{{ quest.title }}</a></h2>
+	            <p class="article-content">{{ quest.detail }}</p>
+	         </div>
+        </article>
+    {% endfor %}
+    </main>
 
     <nav class="my-3 container">
         <ul class="pagination">

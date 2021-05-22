@@ -13,7 +13,7 @@ def home(request):
         quests=Question.objects.annotate(total_comments=Count('answer__comment')).filter(title__icontains=q).order_by('-id')
     else:
         quests=Question.objects.annotate(total_comments=Count('answer__comment')).all().order_by('-id')
-    paginator=Paginator(quests,2)
+    paginator=Paginator(quests,5)
     page_num = request.GET.get('page',1)
     quests=paginator.page(page_num)
     return render(request,'home.html',{'quests':quests})
@@ -127,3 +127,23 @@ def TotalProfile(request):
         'upvotes':upvotes,
         'downvotes':downvotes,
     })
+
+def tags(request):
+    quests=Question.objects.all()
+    tags=[]
+    for quest in quests:
+        qtags=[tag.strip() for tag in quest.tags.split(',')]
+        for tag in qtags:
+            if tag not in tags:
+                tags.append(tag)
+    # Fetch Questions
+    tag_with_count=[]
+    for tag in tags:
+        tag_data={
+            'name':tag,
+            'count':Question.objects.filter(tags__icontains=tag).count()
+        }
+        tag_with_count.append(tag_data)
+    return render(request,'tags.html',{'tags':tag_with_count})
+        
+        
