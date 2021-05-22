@@ -9,4 +9,5 @@ urlpatterns = [
     path('save-downvote',views.save_downvote,name='save-downvote'),
     path('ask-question',views.ask_form,name='ask-question'),
     path('tag/<str:tag>',views.tag,name='tag'),
+    path('profile/',views.TotalProfile,name='profile'),
 ]

@@ -5,6 +5,7 @@ from django.core.paginator import Paginator
 from .forms import AnswerForm, QuestionForm
 from django.contrib import messages
 from django.db.models import Count
+from users.forms import UserUpdateForm, ProfileUpdateForm
 
 def home(request):
     if 'q' in request.GET:
@@ -99,3 +100,30 @@ def tag(request,tag):
     page_num=request.GET.get('page',1)
     quests=paginator.page(page_num)
     return render(request,'tag.html',{'quests':quests,'tag':tag})
+
+def TotalProfile(request):
+    quests=Question.objects.filter(user=request.user).order_by('-id')
+    answers=Answer.objects.filter(user=request.user).order_by('-id')
+    comments=Comment.objects.filter(user=request.user).order_by('-id')
+    upvotes=UpVote.objects.filter(user=request.user).order_by('-id')
+    downvotes=DownVote.objects.filter(user=request.user).order_by('-id')
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your profile has been modified!')
+            return redirect('profile')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+    return render(request,'profile.html',{
+        'u_form':u_form,
+        'p_form':p_form,
+        'quests':quests,
+        'answers':answers,
+        'comments':comments,
+        'upvotes':upvotes,
+        'downvotes':downvotes,
+    })
