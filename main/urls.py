@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import UserQuestionsListView
 
 urlpatterns = [
     path('',views.home,name='stackoverflow-home'),
@@ -11,4 +12,6 @@ urlpatterns = [
     path('tag/<str:tag>',views.tag,name='tag'),
     path('profile/',views.TotalProfile,name='profile'),
     path('tags',views.tags,name='tags'),
+    path('user/<str:username>', UserQuestionsListView.as_view(), name='user-qstns'),
+    
 ]

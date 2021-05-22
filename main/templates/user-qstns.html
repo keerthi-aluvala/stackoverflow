@@ -63,14 +63,14 @@
             </div>
         </div>
     </div>
-
+    <h2>{{view.kwargs.username}}</h2>
     <main role="main" class="container">
     {% for quest in quests %}
         <article class="media content-section">
         	<img class="rounded-circle article-img" src= "{{ quest.user.profile.image.url }}">
 	        <div class="media-body">
 	            <div class="article-metadata">
-	                <a class="mr-2" href="{% url 'user-qstns' quest.user.username %}">{{ quest.user.username }}</a>
+	                <a class="mr-2" href="#">{{view.kwargs.username}}({{</a>
                     <a href="#" class="mr-2">{{quest.answer_set.count}} Answers</a>
                     <a href="#" class="mr-2">{{quest.total_comments}} Comments</a>
 	                <small class="text-muted">{{ quest.add_time|date:"F d, Y" }}</small>

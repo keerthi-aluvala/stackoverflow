@@ -1,4 +1,4 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse, get_object_or_404
 from django.http import JsonResponse
 from .models import Question, Answer, Comment, UpVote, DownVote
 from django.core.paginator import Paginator
@@ -6,6 +6,7 @@ from .forms import AnswerForm, QuestionForm
 from django.contrib import messages
 from django.db.models import Count
 from users.forms import UserUpdateForm, ProfileUpdateForm
+from django.views.generic import ListView
 
 def home(request):
     if 'q' in request.GET:
@@ -17,6 +18,17 @@ def home(request):
     page_num = request.GET.get('page',1)
     quests=paginator.page(page_num)
     return render(request,'home.html',{'quests':quests})
+
+
+class UserQuestionsListView(ListView):
+	model = Question
+	template_name = "user-qstns.html"
+	context_object_name = "quests"
+	paginate_by = 5
+
+	def get_queryset(self):
+		user = get_object_or_404(User, username=self.kwargs.get('username'))
+		return post.objects.filter(user=user).order_by('-id')
 
 
 def detail(request,id):
