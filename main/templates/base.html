@@ -20,7 +20,7 @@
     <script src="{% static 'bootstrap.min.js' %}"></script> -->
 
     <link rel = "stylesheet" type="text/css" href="{% static 'main/style.css' %}">
-
+    
 	{% if title %}
 		<title>Django Blog - {{title}}</title>
 	{% else %}
@@ -31,34 +31,35 @@
 	<header class="site-header">
 	    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
 	        <div class="container">
-	          	<a class="navbar-brand mr-4" href="#">StackOverflow</a>
-	          	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-	          	<span class="navbar-toggler-icon"></span>
-	          	</button>
-	          	<div class="collapse navbar-collapse" id="navbarToggle">
-	            	<form>
-                        <div class="input-group">
-                            <input type="text" name="q" class="form-control" placeholder="Search" />
-                            <div class="input-group-append">
-                            <button class="btn btn-dark" type="submit" id="button-addon2">Search</button>
-                            </div>
-                        </div>
-                    </form>
-	            <!-- Navbar Right Side -->
-	            	<div class="navbar-nav">
-                    
-                      <a class="nav-item nav-link" href="#">Questions</a>
-                      <a class="nav-item nav-link" href="#">Tags</a>
-                      <a class="nav-item nav-link" href="#">Ask</a>
-                    
-  	              		<a class="nav-item nav-link" href="#">Profile</a>
-  	              		<a class="nav-item nav-link" href="#">Register</a>
-                    </div>
-	            </div>
-	          </div>
-	        </div>
+				<a class="navbar-brand mr-4" href="#">StackOverflow</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarToggle">
+				  <div class="navbar-nav mr-auto">
+						<a class="nav-item nav-link" href="{% url 'stackoverflow-home' %}">Home</a>
+						<a class="nav-item nav-link" href="#">About</a>
+				  </div>
+			  	<!-- Navbar Right Side -->
+				  <div class="navbar-nav">
+				  
+					  
+					  <a class="nav-item nav-link" href="/tags">Tags</a>
+					  <a class="nav-item nav-link" href="/ask-question">Ask</a>
+				  {% if user.is_authenticated %}
+					  <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+					  <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+				  {% else %}
+					  <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+					  <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+				  {% endif %}
+				  </div>
+			  </div>
+			</div>
 	      </nav>
     </header>
 
     {% block content %}
     {% endblock %}
+    
+    
