@@ -4,17 +4,22 @@
 {% block title %}{{quest.title}}{% endblock %}
 {% block content %}
     <div class="container">
-        <h2 class="my-4">{{quest.title}}</h2>
-        <p>{{quest.detail}}</p>
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src= "{{ quest.user.profile.image.url }}">
+            <div class="media-body">
+                <div class="article-metadata">
+                <a class="mr-2" href="{% url 'user-qstns' quest.user.username %}">{{ quest.user.username }}</a>
+                <small class="text-muted">{{ quest.add_time|date:'d/m/Y' }}</small>
+                </div>
+                <h2 class="article-title">{{ quest.title }}</h2>
+                <p class="article-content">{{ quest.detail }}</p>
+            </div>
+        </article>
         <p>
             tags:
             {% for tag in tags %}
             <a href="/tag/{{tag|slugify}}" class="badge badge-secondary p-1">{{tag}}</a>
             {% endfor %}
-        </p>
-        <p>
-            <span class="mr-4">{{quest.add_time|date:'d/m/Y'}}</span>
-            <a href="#">{{quest.user.username}}</a>
         </p>
         <hr/>
         {% for answer in answers %}

@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .models import Question, Answer, Comment, UpVote, DownVote
 from django.core.paginator import Paginator
 from .forms import AnswerForm, QuestionForm
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.db.models import Count
 from users.forms import UserUpdateForm, ProfileUpdateForm
@@ -23,12 +24,12 @@ def home(request):
 class UserQuestionsListView(ListView):
 	model = Question
 	template_name = "user-qstns.html"
-	context_object_name = "quests"
+	context_object_name = "Question"
 	paginate_by = 5
 
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))
-		return post.objects.filter(user=user).order_by('-id')
+		return Question.objects.filter(user=user).order_by('-id')
 
 
 def detail(request,id):
